@@ -13,14 +13,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Debug SSH key
+    - name: SSH and deploy
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
         echo "$SSH_PRIVATE_KEY" > keyfile
-        cat keyfile  # Debug line: Output the content of the keyfile
         chmod 600 keyfile
         mkdir -p ~/.ssh
         cp known_hosts ~/.ssh/known_hosts
-
-    - name: SSH and deploy
-      run: |
-        ssh -i keyfile ubuntu@ec2-16-171-230-213.eu-north-1.compute.amazonaws.com "sudo bash ~/deploy.sh"
+        ssh -i keyfile -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@ec2-16-171-230-213.eu-north-1.compute.amazonaws.com "sudo bash ~/deploy.sh"
