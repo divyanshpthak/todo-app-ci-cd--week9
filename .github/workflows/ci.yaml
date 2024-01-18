@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - master # or the branch you want to deploy from
+      - master 
 
 jobs:
   deploy:
@@ -13,9 +13,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Update known hosts
-      run: echo "ec2-16-171-230-213.eu-north-1.compute.amazonaws.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCvgd9LiiwzGgPR/zZpDC5Canf8aCEoEgUyje1zZ7dhKnAkLkWXsq7sM8xVIWBrxWX63PZ5pVa+ykWQ2hf4vKHJO4vtDgZtsa6CcG5DwHgZZMZamvT7900c2IlvIlhMPO9fZ2ucdTzrKP9xRcth0DM6/TjypMWdiHDKCJAzBa3R3U3V95CRkp7OweEYpmFC36OTQGXScuBQzEsqlNm9g43SLdSsuJB4u4pcufJ6eqXhpvnRfMZ8D2THnt+DXd2MTtOzBRvfw24L1+/6vu+CSpk2ofOpv6rSsyeIDM0Bh0LD9zM/jYMLe0kEWoRmYXGTJTZr1Xi6Mxrnx61Pq0s8c4KXJk3opP7YRvU4m7VCffRlHlOB7Ugk+cKsHStptMLWJuDwVm0DaGCUKnVGMtoZKCE0CGIIHHxWgUvklxlmTbLBlN5lcY2UeKN0z2KhdeHa23PNUj6+cSXm7UICduTKt401UNZrgl3VuClAwiDVsR4RRa29qu2en+MARK1j9VsAhYk=" >> ~/.ssh/known_hosts
-
     - name: SSH and deploy
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -24,4 +21,4 @@ jobs:
         chmod 600 keyfile
         mkdir -p ~/.ssh
         cp known_hosts ~/.ssh/known_hosts
-        ssh -t -i keyfile ubuntu@ec2-16-171-230-213.eu-north-1.compute.amazonaws.com "sudo bash ~/deploy.sh"
+        ssh -t -i keyfile ubuntu@ec2-13-211-144-149.ap-southeast-2.compute.amazonaws.com "sudo bash ~/deploy.sh"
